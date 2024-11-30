@@ -11,7 +11,6 @@ const satoshiVariable = localFont({
 export const metadata: Metadata = {
   title: "NPFL",
   description: "Website for NP Fantasy League",
-  icons: 'images/logo.png'
 };
 
 export default function RootLayout({
