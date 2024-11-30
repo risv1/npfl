@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import ThemeToggle from "@/components/misc/ThemeToggle";
 
-const inter = Inter({
-  subsets: ["latin"],
+const satoshiVariable = localFont({
+  src: "../../public/fonts/Satoshi-Variable.ttf",
   display: "swap",
-})
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,8 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased`}
+        className={`${satoshiVariable.className} antialiased bg-white dark:bg-black`}
       >
+        <ThemeToggle />
         {children}
       </body>
     </html>
