@@ -26,7 +26,7 @@ const ThemeToggle: React.FC = () => {
 
     return (
         <div className="w-fit h-fit fixed top-5 right-5">
-            <button onClick={() => setThemeAndStore(theme === "light" ? "dark" : "light")} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
+            <button onClick={() => setThemeAndStore(theme === "light" ? "dark" : "light")} className="p-2 rounded-full bg-neutral-200 dark:bg-neutral-900">
                 {theme === "light" ? <Moon size={24} color="#000000" /> : <Sun size={24} color="#ffffff" />}
             </button>
         </div>
