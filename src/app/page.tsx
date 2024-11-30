@@ -1,6 +1,6 @@
-import Hero from "./home/Hero";
-import Bento from "./home/Bento";
-import Footer from "./home/Footer";
+import Hero from "../components/home/Hero";
+import Bento from "../components/home/Bento";
+import Footer from "../components/home/Footer";
 
 const Home: React.FC = () => {
   return (
