@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../../../../env";
 
 export type UserPayload = {
     id: number;
@@ -6,9 +7,9 @@ export type UserPayload = {
 }
 
 export const generateJwt = (payload: UserPayload) => {
-  return jwt.sign(payload, Bun.env.JWT_SECRET!, { expiresIn: "1h" });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
 };
 
 export const verifyJwt = (token: string) => {
-  return jwt.verify(token, Bun.env.JWT_SECRET!);
+  return jwt.verify(token, JWT_SECRET);
 };
