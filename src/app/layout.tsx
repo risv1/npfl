@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ThemeToggle from "@/components/misc/ThemeToggle";
+import { Toaster } from "react-hot-toast";
 
 const satoshiVariable = localFont({
   src: "../../public/fonts/Satoshi-Variable.ttf",
@@ -24,8 +25,9 @@ export default function RootLayout({
       <body
         className={`${satoshiVariable.className} antialiased bg-white dark:bg-black`}
       >
-        <ThemeToggle />
-        {children}
+          <ThemeToggle />
+          <Toaster />
+          {children}
       </body>
     </html>
   );

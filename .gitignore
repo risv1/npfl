@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/data
 
 # next.js
 /.next/
@@ -30,7 +31,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
 
 # vercel
 .vercel
