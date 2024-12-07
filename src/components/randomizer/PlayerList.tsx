@@ -1,11 +1,13 @@
 import React from 'react';
 import { Trophy } from 'lucide-react';
 
-const PlayerList: React.FC<{
+type PlayerListProps = {
     players: string[];
-    teamAssignments: {[key: string]: string};
+    teamAssignments: { [key: string]: string };
     currentPlayerIndex: number;
-  }> = ({ players, teamAssignments, currentPlayerIndex }) => (
+};
+
+const PlayerList: React.FC<PlayerListProps> = ({ players, teamAssignments, currentPlayerIndex }) => (
     <div className="space-y-2">
       {players.map((player, index) => (
         <div 

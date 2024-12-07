@@ -1,6 +1,10 @@
-const TeamList: React.FC<{
-    teams: string[];
-}> = ({ teams }) => (
+import React from 'react';
+
+type TeamListProps = {
+    teams: Array<string>;
+};
+
+const TeamList: React.FC<TeamListProps> = ({ teams }) => (
     <div className="flex flex-wrap gap-2">
         {teams.map((team, index) => (
             <div

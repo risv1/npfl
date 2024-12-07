@@ -146,6 +146,33 @@ const TeamSelectorWheel: React.FC = () => {
       ctx.fillText(team, radius * 0.6, 0);
       ctx.restore();
     });
+
+    // Draw pointer base (circle)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY - radius, 15, 0, 2 * Math.PI);
+    ctx.fillStyle = '#DC2626';
+    ctx.fill();
+    ctx.strokeStyle = '#991B1B';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw pointer triangle
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY - radius + 5);
+    ctx.lineTo(centerX - 20, centerY - radius - 25);
+    ctx.lineTo(centerX + 20, centerY - radius - 25);
+    ctx.closePath();
+    ctx.fillStyle = '#DC2626';
+    ctx.fill();
+    ctx.strokeStyle = '#991B1B';
+    ctx.stroke();
+
+    // Add shadow effect
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+
   }, [remainingTeams]);
 
   const animateSpin = () => {
@@ -169,10 +196,11 @@ const TeamSelectorWheel: React.FC = () => {
       } else {
         const segmentCount = remainingTeams.length;
         const anglePerSegment = (Math.PI * 2) / segmentCount;
-        const normalizedRotation = rotation % (Math.PI * 2);
-        const winnerIndex = Math.floor((Math.PI * 2 - normalizedRotation) / anglePerSegment);
+        const normalizedRotation = (rotation % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
 
-        const winner = remainingTeams[winnerIndex];
+        const winnerIndex = Math.floor(((3 * Math.PI / 2) - normalizedRotation) / anglePerSegment) % segmentCount;
+        const winner = remainingTeams[winnerIndex >= 0 ? winnerIndex : remainingTeams.length + winnerIndex];
+
         setWinner(winner);
 
         const updatedTeamAssignments = { ...teamAssignments };
@@ -239,86 +267,63 @@ const TeamSelectorWheel: React.FC = () => {
   }, [remainingTeams, currentRotation, drawWheel]);
 
   return (
-    <div className="
-      w-full max-w-2xl mx-auto 
-      bg-white dark:bg-neutral-950 
-      border border-neutral-200 dark:border-neutral-700 
-      rounded-2xl p-8 shadow-2xl 
-      space-y-6
-    ">
-      <div className="flex justify-between items-center">
-        <h2 className="
-          text-3xl font-bold 
-          text-neutral-900 dark:text-neutral-100
-        ">
-          IPL Team Selector
-        </h2>
-        <button
-          onClick={resetGame}
-          className="
-            bg-neutral-100 dark:bg-neutral-800 
-            text-neutral-700 dark:text-neutral-300
-            p-2 rounded-lg 
-            hover:bg-neutral-200 dark:hover:bg-neutral-700
-            transition-all duration-300
-          "
-        >
-          <RotateCcw size={20} />
-        </button>
-      </div>
+    <main className="flex items-center justify-center min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      <div className="w-full max-w-2xl mx-auto bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 shadow-2xl space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+            IPL Team Selector
+          </h2>
+          <button
+            onClick={resetGame}
+            className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 p-2 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-300 cursor-pointer"
+          >
+            <RotateCcw size={20} />
+          </button>
+        </div>
 
-      <div className="space-y-4">
-        <h3 className="
-          text-xl font-semibold 
-          text-neutral-800 dark:text-neutral-200
-        ">
-          Add Teams
-        </h3>
-        <TeamInput
-          value={newTeamName}
-          onChange={setNewTeamName}
-          onAdd={addTeam}
-        />
-        <TeamList teams={remainingTeams} />
-      </div>
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+            Add Teams
+          </h3>
+          <TeamInput
+            value={newTeamName}
+            onChange={setNewTeamName}
+            onAdd={addTeam}
+          />
+          <TeamList teams={remainingTeams} />
+        </div>
 
-      <div className="space-y-4">
-        <h3 className="
-          text-xl font-semibold 
-          text-neutral-800 dark:text-neutral-200
-        ">
-          Add Players
-        </h3>
-        <PlayerInput
-          value={newPlayerName}
-          onChange={setNewPlayerName}
-          onAdd={addPlayer}
-          onRandomize={randomizePlayerOrder}
-        />
-        <PlayerList
-          players={players}
-          teamAssignments={teamAssignments}
-          currentPlayerIndex={currentPlayerIndex}
-        />
-      </div>
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+            Add Players
+          </h3>
+          <PlayerInput
+            value={newPlayerName}
+            onChange={setNewPlayerName}
+            onAdd={addPlayer}
+            onRandomize={randomizePlayerOrder}
+          />
+          <PlayerList
+            players={players}
+            teamAssignments={teamAssignments}
+            currentPlayerIndex={currentPlayerIndex}
+          />
+        </div>
 
-      <div className="flex justify-center mb-6">
-        <canvas
-          ref={canvasRef}
-          width={350}
-          height={350}
-          className="
-            border-4 border-neutral-200 dark:border-neutral-700 
-            rounded-full shadow-2xl
-          "
-        />
-      </div>
+        <div className="flex justify-center mb-6">
+          <canvas
+            ref={canvasRef}
+            width={350}
+            height={350}
+            className="border-4 border-neutral-200 dark:border-neutral-700 rounded-full shadow-2xl"
+          />
+        </div>
 
-      <div className="flex justify-center">
-        <button
-          onClick={spinWheel}
-          disabled={remainingTeams.length === 0 || players.length === 0 || spinning}
-          className={`
+        <div className="flex justify-center">
+          <button
+            onClick={spinWheel}
+            disabled={remainingTeams.length === 0 || players.length === 0 || spinning}
+            className={`
             bg-fuchsia-500 text-white 
             px-8 py-4 rounded-xl 
             hover:bg-fuchsia-600 
@@ -326,33 +331,28 @@ const TeamSelectorWheel: React.FC = () => {
             transform hover:scale-105 
             flex items-center space-x-3
             text-lg font-semibold
+            cursor-pointer
             ${(remainingTeams.length === 0 || players.length === 0 || spinning)
-              ? 'opacity-50 cursor-not-allowed'
-              : ''}
+                ? 'opacity-50 cursor-not-allowed'
+                : ''}
           `}
-        >
-          <Trophy size={24} />
-          <span>Spin Wheel</span>
-        </button>
-      </div>
-      
-      {winner && (
-        <div className="
-          mt-4 text-center 
-          bg-emerald-100 dark:bg-emerald-900 
-          p-4 rounded-xl
-        ">
-          <p className="
-            text-2xl font-bold 
-            text-emerald-700 dark:text-emerald-300
-          ">
-            {players[currentPlayerIndex - 1] || players[players.length - 1]}
-            {' '}selected{' '}
-            {winner}
-          </p>
+          >
+            <Trophy size={24} />
+            <span>Spin Wheel</span>
+          </button>
         </div>
-      )}
-    </div>
+
+        {winner && (
+          <div className="mt-4 text-center bg-emerald-100 dark:bg-emerald-900 p-4 rounded-xl">
+            <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
+              {players[currentPlayerIndex - 1] || players[players.length - 1]}
+              {' '}selected{' '}
+              {winner}
+            </p>
+          </div>
+        )}
+      </div>
+    </main>
   );
 };
 

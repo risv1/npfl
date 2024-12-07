@@ -5,12 +5,14 @@ import {
   Target,
 } from 'lucide-react';
 
-const PlayerInput: React.FC<{
+type PlayerInputProps = {
     value: string;
     onChange: (value: string) => void;
     onAdd: () => void;
     onRandomize: () => void;
-  }> = ({ value, onChange, onAdd, onRandomize }) => (
+};
+
+const PlayerInput: React.FC<PlayerInputProps> = ({ value, onChange, onAdd, onRandomize }) => (
     <div className="space-y-2">
       <div className="flex space-x-2 w-full">
         <div className="relative flex-grow">
