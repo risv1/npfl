@@ -7,7 +7,7 @@ import Button from '../misc/Button';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 
-const Form = () => {
+const Form: React.FC = () => {
     const [loading, setLoading] = React.useState(false);
     const [formDetails, setFormDetails] = React.useState({
         email: '',
@@ -44,12 +44,14 @@ const Form = () => {
                 toast('Login successful', { icon: '🎉', style: { backgroundColor: '#34D399', color: '#fff' } });
             } else {
                 toast('Login failed', { icon: '❌', style: { backgroundColor: '#F87171', color: '#fff' } });
+                console.error(await res.json());
                 setLoading(false);
             }
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_error) {
             toast('Login failed', { icon: '❌', style: { backgroundColor: '#F87171', color: '#fff' } });
+            console.error(_error);
             setLoading(false);
         }
 
