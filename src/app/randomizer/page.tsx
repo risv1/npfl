@@ -175,7 +175,7 @@ const TeamSelectorWheel: React.FC = () => {
   const animateSpin = () => {
     let rotation = currentRotation;
     const totalRotation = Math.random() * (Math.PI * 20) + (Math.PI * 20);
-    const duration = 1000;
+    const duration = 11000;
     const startTime = performance.now();
 
     const animate = (currentTime: number) => {
@@ -296,8 +296,36 @@ const TeamSelectorWheel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    drawWheel(currentRotation); 
+    drawWheel(currentRotation);
   }, [remainingTeams, currentRotation, drawWheel]);
+
+  useEffect(()=>{
+    const fetchWheelData = async() => {
+      try{  
+        const res = await fetch("/api/v1/getWheelData", {
+          method: "GET",
+          credentials: "include",
+        })
+        if (res.ok) {
+          const data = await res.json();
+          setTeams(data.teams);
+          setPlayers(data.players);
+          setRemainingTeams(data.teams);
+        } else {
+          toast.error('Failed to fetch data', {
+            style: {
+              backgroundColor: '#F87171',
+              color: '#fff'
+            }
+          });
+        }
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
+    fetchWheelData();
+  }, [])
 
   return (
     <main className="flex items-center justify-center min-h-screen bg-neutral-50 dark:bg-neutral-950">

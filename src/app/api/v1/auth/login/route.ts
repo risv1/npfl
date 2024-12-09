@@ -39,6 +39,17 @@ export const POST = async (request: Request) => {
     const findUser = await getUserByEmail(body.email);
     if ('email' in findUser) {
 
+        if (body.password !== findUser.password) {
+            return new Response(JSON.stringify({
+                error: ERR_INVALID_CREDENTIALS
+            }), {
+                status: ERR_INVALID_CREDENTIALS.status,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
         const npflToken = generateJwt({
             id: findUser.id,
             role: findUser.role
