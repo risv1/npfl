@@ -42,16 +42,17 @@ const Form: React.FC = () => {
 
             if (res.ok) {
                 toast('Login successful', { icon: '🎉', style: { backgroundColor: '#34D399', color: '#fff' } });
+                setLoading(false);
             } else {
                 toast('Login failed', { icon: '❌', style: { backgroundColor: '#F87171', color: '#fff' } });
-                console.error(await res.json());
+                console.log(await res.json());
                 setLoading(false);
             }
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_error) {
             toast('Login failed', { icon: '❌', style: { backgroundColor: '#F87171', color: '#fff' } });
-            console.error(_error);
+            console.log(_error);
             setLoading(false);
         }
 

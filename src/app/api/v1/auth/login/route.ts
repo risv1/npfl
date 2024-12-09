@@ -41,7 +41,7 @@ export const POST = async (request: Request) => {
 
         const npflToken = generateJwt({
             id: findUser.id,
-            admin: false,
+            role: findUser.role
         });
 
         (await cookies()).set('__npfltoken', npflToken, { httpOnly: true, secure: true, sameSite: 'strict' });

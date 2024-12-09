@@ -21,13 +21,11 @@ const TeamInput: React.FC<TeamInputProps> = ({ value, onChange, onAdd }) => (
                 onChange={(e) => onChange(e.target.value)}
                 placeholder="Enter Team Name"
                 className="
-          w-full p-3 pl-10 
+          w-full p-3 pl-10 focus:outline-none
           bg-neutral-100 dark:bg-neutral-800 
           text-neutral-900 dark:text-neutral-100
           border border-neutral-300 dark:border-neutral-700
-          rounded-lg 
-          focus:ring-2 focus:ring-fuchsia-500
-          transition-all duration-300
+          rounded-lg focus:border-fuchsia-500 dark:focus:border-fuchsia-500 border-2
         "
             />
             <Users

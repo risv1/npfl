@@ -44,6 +44,14 @@ export const getUserByEmail: (email: string)=>Promise<UserModel | ReturnError> =
     return fetchUser
 }
 
+export const getUserByName: (name: string) => Promise<UserModel | ReturnError> = async(name: string) => {
+    const [fetchUser] = await db.select().from(users).where(eq(users.name, name))
+    if (!fetchUser) {
+        return ERR_NO_USERS_FOUND
+    }
+    return fetchUser
+}
+
 export const updateUser = async (id: number, user: UpdateUser) => {
     try {
         await db.update(users).set(user).where(eq(users.id, id))

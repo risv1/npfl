@@ -147,7 +147,6 @@ const TeamSelectorWheel: React.FC = () => {
       ctx.restore();
     });
 
-    // Draw pointer base (circle)
     ctx.beginPath();
     ctx.arc(centerX, centerY - radius, 15, 0, 2 * Math.PI);
     ctx.fillStyle = '#DC2626';
@@ -156,7 +155,6 @@ const TeamSelectorWheel: React.FC = () => {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Draw pointer triangle
     ctx.beginPath();
     ctx.moveTo(centerX, centerY - radius + 5);
     ctx.lineTo(centerX - 20, centerY - radius - 25);
@@ -167,7 +165,6 @@ const TeamSelectorWheel: React.FC = () => {
     ctx.strokeStyle = '#991B1B';
     ctx.stroke();
 
-    // Add shadow effect
     ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
     ctx.shadowBlur = 5;
     ctx.shadowOffsetX = 2;
@@ -177,8 +174,8 @@ const TeamSelectorWheel: React.FC = () => {
 
   const animateSpin = () => {
     let rotation = currentRotation;
-    const totalRotation = Math.random() * (Math.PI * 10) + (Math.PI * 10);
-    const duration = 3000;
+    const totalRotation = Math.random() * (Math.PI * 20) + (Math.PI * 20);
+    const duration = 1000;
     const startTime = performance.now();
 
     const animate = (currentTime: number) => {
@@ -254,6 +251,42 @@ const TeamSelectorWheel: React.FC = () => {
     });
   };
 
+  const saveResults = async() => {
+    try {
+      const res = await fetch("/api/v1/saveTeams", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ teamAssignments }),
+        credentials: "include",
+      })
+      if (res.ok) {
+        toast.success('Results saved successfully', {
+          style: {
+            backgroundColor: '#34D399',
+            color: '#fff'
+          }
+        });
+      } else {
+        toast.error('Failed to save results', {
+          style: {
+            backgroundColor: '#F87171',
+            color: '#fff'
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to save results', {
+        style: {
+          backgroundColor: '#F87171',
+          color: '#fff'
+        }
+      });
+    }
+  }
+
   useEffect(() => {
     return () => {
       if (animationFrameRef.current) {
@@ -263,7 +296,7 @@ const TeamSelectorWheel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    drawWheel(currentRotation);
+    drawWheel(currentRotation); 
   }, [remainingTeams, currentRotation, drawWheel]);
 
   return (
@@ -351,6 +384,13 @@ const TeamSelectorWheel: React.FC = () => {
             </p>
           </div>
         )}
+        {
+          Object.keys(teamAssignments).length !== 0 && (
+            <button onClick={saveResults} className="bg-fuchsia-500 text-white font-medium px-4 py-2 rounded-lg hover:bg-fuchsia-600 transition-all duration-300">
+              Save Results
+            </button>
+          )
+        }
       </div>
     </main>
   );
