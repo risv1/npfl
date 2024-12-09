@@ -4,6 +4,12 @@ export type ReturnError = {
     prettyMessage: string;
 }
 
+const ERR_COULDNT_SAVE_TEAMS: ReturnError = {
+    status: 500,
+    message: 'Could not save teams',
+    prettyMessage: 'An error occurred while trying to save the teams'
+}
+
 const ERR_BAD_REQUEST: ReturnError = {
     status: 400,
     message: 'Bad request',
@@ -71,6 +77,7 @@ const ERR_INTERNAL_SERVER_ERROR: ReturnError = {
 }
 
 export {
+    ERR_COULDNT_SAVE_TEAMS,
     ERR_BAD_REQUEST,
     ERR_INVALID_CREDENTIALS,
     ERR_INVALID_TOKEN,

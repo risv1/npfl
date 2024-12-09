@@ -1,6 +1,6 @@
 {
-  "id": "ecb85669-fa54-403e-8dc1-84df17f25286",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "bfa7fa63-6547-4f72-ba93-96bf58387cf7",
+  "prevId": "ecb85669-fa54-403e-8dc1-84df17f25286",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -84,7 +84,22 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "players_user_id_unique": {
+          "name": "players_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_id"
+          ]
+        },
+        "players_team_id_unique": {
+          "name": "players_team_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "team_id"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

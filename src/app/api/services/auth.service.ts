@@ -20,3 +20,25 @@ export const checkUserAuth = async (token: string) => {
         return false
     }
 }
+
+export const returnCreds = async (token: string) => {
+    const payload = verifyJwt(token) as JwtPayload;
+    const userId = payload.id;
+
+    if (!userId) {
+        return false
+    }
+
+    try {
+        const getUser = await getUserById(userId);
+        if (getUser) {
+            return {
+                id: payload.id,
+                role: payload.role
+            }
+        }
+    } catch (error) {
+        console.error(error)
+        return false
+    }
+}

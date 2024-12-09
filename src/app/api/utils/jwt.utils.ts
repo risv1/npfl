@@ -3,7 +3,7 @@ import { JWT_SECRET } from "../../../../env";
 
 export type UserPayload = {
     id: number;
-    admin: boolean;
+    role: string;
 }
 
 export const generateJwt = (payload: UserPayload) => {

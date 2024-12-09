@@ -2,11 +2,13 @@ import React from 'react';
 import Image from "next/image";
 import { Trophy, Users, TrendingUp } from 'lucide-react';
 
-const FeatureItem = ({ icon: Icon, title, description }: {
-    icon: JSX.ElementType
-    title: string;
-    description: string;
-}) => (
+type FeatureItemProps = {
+    icon: JSX.ElementType,
+    title: string,
+    description: string
+}
+
+const FeatureItem: React.FC<FeatureItemProps> = ({ icon: Icon, title, description }) => (
     <div className="flex items-start space-x-4 mb-6">
         <div className="flex-shrink-0">
             <Icon className="w-6 h-6 text-fuchsia-500" />
